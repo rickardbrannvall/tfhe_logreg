@@ -75,7 +75,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Number of data rows: {}", N);
     
     for i in 0..N {        
-        let encfile = format!("data/X_test0/{}.enc",i);
+        let encfile = format!("data/X_test1/{}.enc",i);
         println!("{}", encfile);
         
         let features = VectorLWE::load(&encfile).unwrap();
