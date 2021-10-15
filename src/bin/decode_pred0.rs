@@ -37,10 +37,6 @@ fn main() -> Result<(), CryptoAPIError> {
     
     println!("Load and decrypt predictions ...");
     for i in 0..N {
-        if false && i==5 {
-            break;
-        };
-        
         let encfile = format!("data/y_test0/{}.enc",i);
         let pred = VectorLWE::load(&encfile).unwrap();
         
@@ -49,6 +45,12 @@ fn main() -> Result<(), CryptoAPIError> {
         
         // but one can also make the check on y = sigmoid(a x + b) >= 0.5 instead 
         //y_pred[[i,0]] = if pred.decrypt_decode(&sk1).unwrap()[0] >= 0.5 {1.0} else {0.0};
+        
+        if i<20 {
+            println!("{}",y_pred[[i,0]]); 
+        } else if false {
+            break;
+        };
     };
  
     //println!("{:?}",y_pred);

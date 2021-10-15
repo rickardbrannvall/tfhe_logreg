@@ -49,5 +49,34 @@ fn main() -> Result<(), CryptoAPIError> {
     println!("negation of val {:?}", ct.decrypt_decode(&sk0).unwrap());
     ct.pp();      
     
+    
+    let zero: Vec<f64> = vec![0.0];
+    let z_star = VectorLWE::encode_encrypt(&sk0, &zero, &enc)?;
+    let encfile = "z_star.enc";
+    z_star.save(&encfile).unwrap();
+    
+    let a_star = z_star.add_constant_static_encoder(&vec![3.0])?;
+    let b_star = z_star.add_constant_static_encoder(&vec![5.0])?;
+    
+    let c_star = b_star.sub_with_padding(&a_star)?;
+    println!("c {:?}", c_star.decrypt_decode(&sk0).unwrap());
+    c_star.pp();      
+    
+    let encfile = "c_star.enc";
+    c_star.save(&encfile).unwrap();
+
+    let z_dagg = VectorLWE::encode_encrypt(&sk0, &zero, &enc)?;
+    let encfile = "z_dagg.enc";
+    z_dagg.save(&encfile).unwrap();
+
+    let b_dagg = z_dagg.add_constant_static_encoder(&vec![5.0])?;
+
+    let c_dagg = b_dagg.sub_with_padding(&a_star)?;
+    println!("c {:?}", c_dagg.decrypt_decode(&sk0).unwrap());
+    c_dagg.pp();      
+    
+    let encfile = "c_dagg.enc";
+    c_dagg.save(&encfile).unwrap();
+ 
     Ok(())
 }
